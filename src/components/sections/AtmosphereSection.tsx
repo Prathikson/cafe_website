@@ -1,7 +1,8 @@
 "use client";
 
-import { useRef, useEffect } from "react";
+import { useRef, useEffect, useState } from "react";
 import Image from "next/image";
+import { motion } from "framer-motion";
 import { gsap } from "gsap";
 import { ScrollTrigger } from "gsap/ScrollTrigger";
 
@@ -28,6 +29,15 @@ const panels = [
 
 export function AtmosphereSection() {
   const sectionRef = useRef<HTMLElement>(null);
+  const [scrollY, setScrollY] = useState(0);
+
+  useEffect(() => {
+    const handleScroll = () => {
+      setScrollY(window.scrollY);
+    };
+    window.addEventListener("scroll", handleScroll);
+    return () => window.removeEventListener("scroll", handleScroll);
+  }, []);
 
   useEffect(() => {
     if (!sectionRef.current) return;
@@ -59,11 +69,11 @@ export function AtmosphereSection() {
       {panels.map((panel, i) => (
         <div
           key={panel.label}
-          className={`grid grid-cols-1 md:grid-cols-2 min-h-[70vh] ${i > 0 ? "border-t border-ink-100" : ""}`}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 ${i > 0 ? "border-t border-ink-100" : ""}`}
         >
           {/* Text side */}
           <div
-            className={`flex flex-col justify-center py-16 md:py-24 px-8 md:px-16 ${panel.side === "right" ? "md:order-1" : "md:order-2"}`}
+            className={`flex flex-col justify-center ${panel.side === "right" ? "md:order-1" : "md:order-2"}`}
           >
             <p className="atm-text text-[11px] tracking-[0.25em] uppercase text-ink-400 mb-5">{panel.label}</p>
             <h2 className="atm-text text-[clamp(1.8rem,3.2vw,2.8rem)] font-light tracking-[-0.02em] text-ink-900 leading-snug mb-6 max-w-sm">
@@ -82,19 +92,50 @@ export function AtmosphereSection() {
             )}
           </div>
 
-          {/* Image side — with parallax */}
+          {/* Image side — with parallax and rounded edges */}
           <div
-            className={`atm-wrap relative h-[55vw] md:h-auto overflow-hidden ${panel.side === "right" ? "md:order-2" : "md:order-1"}`}
+            className={`atm-wrap relative ${panel.side === "right" ? "md:order-2" : "md:order-1"}`}
+            style={{
+              height: "clamp(350px, 60vh, 600px)",
+              perspective: "1500px",
+            }}
           >
-            <div className="atm-parallax absolute inset-0 w-full" style={{ height: "130%" }}>
-              <Image
-                src={panel.img}
-                alt={panel.alt}
-                fill
-                className="object-cover"
-                sizes="(max-width: 768px) 100vw, 50vw"
+            <motion.div
+              className="relative w-full h-full rounded-2xl md:rounded-3xl overflow-hidden"
+              style={{
+                boxShadow: "0 20px 60px rgba(0, 0, 0, 0.12)",
+              }}
+              initial={{ opacity: 0, y: 40 }}
+              whileInView={{ opacity: 1, y: 0 }}
+              viewport={{ once: true, margin: "-100px" }}
+              transition={{ duration: 0.8, ease: [0.16, 1, 0.3, 1] }}
+            >
+              {/* Parallax Image */}
+              <motion.div
+                className="atm-parallax absolute inset-0 w-full"
+                style={{
+                  height: "120%",
+                  top: "-10%",
+                  transform: `translateY(${scrollY * 0.08}px) scale(1.05)`,
+                }}
+              >
+                <Image
+                  src={panel.img}
+                  alt={panel.alt}
+                  fill
+                  className="object-cover"
+                  sizes="(max-width: 768px) 100vw, 50vw"
+                />
+              </motion.div>
+
+              {/* Subtle overlay for depth */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(135deg, rgba(255,255,255,0.05) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.03) 100%)",
+                }}
               />
-            </div>
+            </motion.div>
           </div>
         </div>
       ))}
