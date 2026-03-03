@@ -43,14 +43,6 @@ export function Navbar() {
     className="h-9 w-auto"
   />
 
-  <div className="leading-none">
-    <div className="text-[13px] font-medium tracking-tight text-ink-900">
-      Luminary
-    </div>
-    <div className="text-[10px] font-light tracking-[0.15em] text-ink-400 uppercase">
-      Café
-    </div>
-  </div>
 </Link>
 
           {/* Desktop nav */}
