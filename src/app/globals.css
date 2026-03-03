@@ -1,0 +1,124 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+/* ── Google Fonts: DM Mono only (body uses system Helvetica Neue) ─── */
+@import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&display=swap");
+
+:root {
+  --sand:    #F5F0E8;
+  --sand-50: #FDFCF8;
+  --forest:  #12271D;
+  --ink:     #1A1A1A;
+  --ink-mid: #6B6B6B;
+  --border:  rgba(26,26,26,0.10);
+}
+
+* { box-sizing: border-box; margin: 0; padding: 0; }
+
+html {
+  scroll-behavior: auto;
+  -webkit-font-smoothing: antialiased;
+  -moz-osx-font-smoothing: grayscale;
+}
+
+body {
+  background-color: var(--sand);
+  color: var(--ink);
+  font-family: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, sans-serif;
+  font-weight: 300;
+  overflow-x: hidden;
+}
+
+/* ── Custom cursor ── */
+* { cursor: none; }
+
+/* ── Scrollbar ── */
+::-webkit-scrollbar { width: 4px; }
+::-webkit-scrollbar-track { background: var(--sand); }
+::-webkit-scrollbar-thumb { background: var(--ink); border-radius: 2px; }
+
+/* ── Selection ── */
+::selection { background: var(--ink); color: var(--sand); }
+
+/* ── Hover underline ── */
+.hover-underline { position: relative; }
+.hover-underline::after {
+  content: "";
+  position: absolute;
+  bottom: -2px; left: 0;
+  width: 0; height: 1px;
+  background: currentColor;
+  transition: width 0.4s cubic-bezier(0.16,1,0.3,1);
+}
+.hover-underline:hover::after { width: 100%; }
+
+/* ── Grain overlay ── */
+.grain::before {
+  content: "";
+  position: fixed;
+  top: -50%; left: -50%;
+  width: 200%; height: 200%;
+  background-image: url("data:image/svg+xml,%3Csvg viewBox='0 0 512 512' xmlns='http://www.w3.org/2000/svg'%3E%3Cfilter id='noise'%3E%3CfeTurbulence type='fractalNoise' baseFrequency='0.9' numOctaves='4' stitchTiles='stitch'/%3E%3C/filter%3E%3Crect width='100%25' height='100%25' filter='url(%23noise)' opacity='0.04'/%3E%3C/svg%3E");
+  pointer-events: none;
+  z-index: 9999;
+  opacity: 0.035;
+  animation: grain 8s steps(10) infinite;
+}
+
+@keyframes grain {
+  0%,100% { transform: translate(0,0); }
+  10% { transform: translate(-5%,-10%); }
+  20% { transform: translate(-15%,5%); }
+  30% { transform: translate(7%,-25%); }
+  40% { transform: translate(-5%,25%); }
+  50% { transform: translate(-15%,10%); }
+  60% { transform: translate(15%,0%); }
+  70% { transform: translate(0%,15%); }
+  80% { transform: translate(3%,35%); }
+  90% { transform: translate(-10%,10%); }
+}
+
+/* ── Parallax wrapper ── */
+.parallax-img {
+  will-change: transform;
+  transform: scale(1.15);
+}
+
+/* ── Card hover ── */
+.card-lift {
+  transition: transform 0.5s cubic-bezier(0.16,1,0.3,1), box-shadow 0.5s ease;
+}
+.card-lift:hover {
+  transform: translateY(-6px);
+  box-shadow: 0 24px 48px rgba(26,26,26,0.10);
+}
+
+/* ── no scrollbar ── */
+.no-scrollbar::-webkit-scrollbar { display: none; }
+.no-scrollbar { -ms-overflow-style: none; scrollbar-width: none; }
+
+/* ── Product image bg ── */
+.product-bg {
+  background-color: #EDEBE5;
+}
+
+/* ── Badge rotation ── */
+.badge-rotated {
+  writing-mode: vertical-rl;
+  text-orientation: mixed;
+  transform: rotate(180deg);
+}
+
+/* ── Additional utility classes for v4 ── */
+.bg-sand-50 { background-color: #FDFCF8; }
+.bg-sand-200 { background-color: #EDE6D8; }
+.product-bg { background-color: #EDEBE5; }
+.rounded-3xl { border-radius: 1.5rem; }
+.rounded-2xl { border-radius: 1rem; }
+
+/* ── Typography inspired section ── */
+.type-inspired h2 em {
+  font-style: italic;
+  font-weight: 300;
+}
