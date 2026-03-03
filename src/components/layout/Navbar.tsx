@@ -6,6 +6,7 @@ import { usePathname } from "next/navigation";
 import { motion, useScroll, useTransform, AnimatePresence } from "framer-motion";
 import { clsx } from "clsx";
 import { useCart } from "@/lib/CartContext";
+import Image from "next/image";
 
 const navLinks = [
   { href: "/", label: "Home" },
@@ -31,15 +32,26 @@ export function Navbar() {
         <motion.div className="absolute bottom-0 left-0 right-0 h-px bg-ink-100" style={{ opacity: borderOpacity }} />
         <div className="flex items-center justify-between h-[60px] px-6 md:px-10">
           {/* Logo */}
-          <Link href="/" className="flex items-center gap-2.5">
-            <svg width="20" height="20" viewBox="0 0 22 22" fill="none" className="text-ink-900">
-              <path d="M11 2 L2 11 L7 11 L7 20 L15 20 L15 11 L20 11 Z" fill="currentColor"/>
-            </svg>
-            <div className="leading-none">
-              <div className="text-[13px] font-medium tracking-tight text-ink-900">Luminary</div>
-              <div className="text-[10px] font-light tracking-[0.15em] text-ink-400 uppercase">Café</div>
-            </div>
-          </Link>
+{/* Logo */}
+<Link href="/" className="flex items-center gap-3">
+  <Image
+    src="/logo.svg"
+    alt="Luminary Café Logo"
+    width={36}
+    height={36}
+    priority
+    className="h-9 w-auto"
+  />
+
+  <div className="leading-none">
+    <div className="text-[13px] font-medium tracking-tight text-ink-900">
+      Luminary
+    </div>
+    <div className="text-[10px] font-light tracking-[0.15em] text-ink-400 uppercase">
+      Café
+    </div>
+  </div>
+</Link>
 
           {/* Desktop nav */}
           <nav className="hidden md:flex items-center gap-8">

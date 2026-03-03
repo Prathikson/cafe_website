@@ -15,13 +15,54 @@ const siteDescription = "Luminary Café — A sanctuary for specialty coffee, ar
 
 export const metadata: Metadata = {
   metadataBase: new URL(siteUrl),
-  title: { default: `${siteName} — Specialty Coffee & Artisan Pastries`, template: `%s | ${siteName}` },
+  title: { 
+    default: `${siteName} — Specialty Coffee & Artisan Pastries`, 
+    template: `%s | ${siteName}` 
+  },
   description: siteDescription,
-  keywords: ["specialty coffee","artisan café","single origin coffee","artisan pastries","third wave coffee"],
+  keywords: [
+    "specialty coffee",
+    "artisan café",
+    "single origin coffee",
+    "artisan pastries",
+    "third wave coffee"
+  ],
   authors: [{ name: "Luminary Café" }],
-  robots: { index: true, follow: true, googleBot: { index: true, follow: true, "max-image-preview": "large" } },
-  openGraph: { type: "website", locale: "en_US", url: siteUrl, siteName, title: `${siteName} — Specialty Coffee`, description: siteDescription, images: [{ url: `${siteUrl}/og-image.jpg`, width: 1200, height: 630, alt: siteName }] },
-  twitter: { card: "summary_large_image", title: `${siteName}`, description: siteDescription, images: [`${siteUrl}/og-image.jpg`] },
+
+  icons: {
+    icon: "/icon.svg",
+    shortcut: "/icon.svg",
+    apple: "/icon.svg",
+  },
+
+  robots: {
+    index: true,
+    follow: true,
+    googleBot: { index: true, follow: true, "max-image-preview": "large" }
+  },
+
+  openGraph: {
+    type: "website",
+    locale: "en_US",
+    url: siteUrl,
+    siteName,
+    title: `${siteName} — Specialty Coffee`,
+    description: siteDescription,
+    images: [{
+      url: `${siteUrl}/og-image.jpg`,
+      width: 1200,
+      height: 630,
+      alt: siteName
+    }]
+  },
+
+  twitter: {
+    card: "summary_large_image",
+    title: `${siteName}`,
+    description: siteDescription,
+    images: [`${siteUrl}/og-image.jpg`]
+  },
+
   alternates: { canonical: siteUrl },
 };
 

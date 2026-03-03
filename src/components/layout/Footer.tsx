@@ -1,4 +1,5 @@
 "use client";
+import Image from "next/image";
 import Link from "next/link";
 import { motion } from "framer-motion";
 
@@ -67,29 +68,19 @@ export function Footer() {
 
             {/* Logo mark */}
             <div className="md:col-span-4 flex flex-col justify-between gap-8">
-              <svg
-                width="52" height="56"
-                viewBox="0 0 160 170"
-                fill="none"
-                xmlns="http://www.w3.org/2000/svg"
-                className="text-ink-900"
-              >
-                <path
-                  d="M80 10 L20 70 L50 70 L50 160 L110 160 L110 70 L140 70 Z"
-                  fill="currentColor"
-                  opacity="0.08"
-                />
-                <path
-                  d="M80 10 L20 70 L50 70 L50 160 L110 160 L110 70 L140 70 Z"
-                  stroke="currentColor"
-                  strokeWidth="2"
-                  fill="none"
-                />
-                <circle cx="80" cy="160" r="4" fill="currentColor" opacity="0.4" />
-              </svg>
-              <p className="text-[13px] font-light text-ink-400 leading-relaxed max-w-[220px]">
-                High-performance packaging designed for the food industry.
-              </p>
+<div className="flex flex-col gap-6">
+  <Image
+    src="/logo.svg"
+    alt="Luminary Café Logo"
+    width={80}
+    height={80}
+    className="h-14 w-auto opacity-90"
+  />
+
+  <p className="text-[13px] font-light text-ink-400 leading-relaxed max-w-[220px]">
+    A sanctuary for specialty coffee, artisan pastries, and slow mornings.
+  </p>
+</div>
             </div>
 
             {/* Nav links */}
