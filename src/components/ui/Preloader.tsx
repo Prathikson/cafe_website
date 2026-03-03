@@ -3,28 +3,37 @@
 import { useEffect, useState } from "react";
 import { motion, AnimatePresence } from "framer-motion";
 
+const MIN_DURATION_MS = 5000;
+
 export function Preloader() {
   const [visible, setVisible] = useState(true);
   const [count, setCount] = useState(0);
 
   useEffect(() => {
-    // Only show once per session
     const seen = sessionStorage.getItem("luminary_loaded");
     if (seen) { setVisible(false); return; }
 
+    const startTime = Date.now();
     let frame = 0;
+
     const interval = setInterval(() => {
-      frame += Math.floor(Math.random() * 12) + 4;
+      // Spread progress across ~4.2s so it reaches 100 just before 5s
+      frame += Math.floor(Math.random() * 6) + 2;
       if (frame >= 100) {
         frame = 100;
         clearInterval(interval);
+
+        // Ensure we always wait at least MIN_DURATION_MS before hiding
+        const elapsed = Date.now() - startTime;
+        const remaining = Math.max(0, MIN_DURATION_MS - elapsed);
+
         setTimeout(() => {
           sessionStorage.setItem("luminary_loaded", "1");
           setVisible(false);
-        }, 600);
+        }, remaining + 400); // +400 for a beat at 100%
       }
       setCount(frame);
-    }, 60);
+    }, 80); // slower tick → smoother fill over ~5s
 
     return () => clearInterval(interval);
   }, []);
@@ -47,7 +56,6 @@ export function Preloader() {
               fill="none"
               xmlns="http://www.w3.org/2000/svg"
             >
-              {/* Cup body */}
               <motion.path
                 d="M12 28 L18 76 Q40 84 62 76 L68 28 Z"
                 stroke="#E8E0C8"
@@ -58,7 +66,6 @@ export function Preloader() {
                 animate={{ pathLength: 1, opacity: 1 }}
                 transition={{ duration: 1.2, ease: "easeInOut" }}
               />
-              {/* Rim */}
               <motion.ellipse
                 cx="40"
                 cy="28"
@@ -71,7 +78,6 @@ export function Preloader() {
                 animate={{ pathLength: 1, opacity: 1 }}
                 transition={{ duration: 0.8, delay: 0.3 }}
               />
-              {/* Handle */}
               <motion.path
                 d="M68 40 Q86 40 86 56 Q86 72 68 72"
                 stroke="#E8E0C8"
@@ -82,7 +88,6 @@ export function Preloader() {
                 animate={{ pathLength: 1 }}
                 transition={{ duration: 0.8, delay: 0.8 }}
               />
-              {/* Steam wisps */}
               {[0, 1, 2].map((i) => (
                 <motion.path
                   key={i}
@@ -93,10 +98,7 @@ export function Preloader() {
                   strokeLinecap="round"
                   opacity="0.5"
                   initial={{ pathLength: 0, opacity: 0 }}
-                  animate={{
-                    pathLength: [0, 1, 0],
-                    opacity: [0, 0.5, 0],
-                  }}
+                  animate={{ pathLength: [0, 1, 0], opacity: [0, 0.5, 0] }}
                   transition={{
                     duration: 2,
                     delay: 0.6 + i * 0.3,
@@ -133,7 +135,7 @@ export function Preloader() {
             <motion.div
               className="absolute inset-y-0 left-0 bg-[#E8E0C8]/60"
               style={{ width: `${count}%` }}
-              transition={{ duration: 0.1 }}
+              transition={{ duration: 0.15 }}
             />
           </div>
           <motion.span

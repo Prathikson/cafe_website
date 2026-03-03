@@ -8,9 +8,9 @@ import { clsx } from "clsx";
 import { useCart } from "@/lib/CartContext";
 
 const navLinks = [
-  { href: "/", label: "Shop" },
-  { href: "/menu", label: "Our Menu" },
-  { href: "/about", label: "Company" },
+  { href: "/", label: "Home" },
+  { href: "/menu", label: "Menu" },
+  { href: "/about", label: "About" },
   { href: "/contact", label: "Contact Us" },
 ];
 
@@ -59,10 +59,7 @@ export function Navbar() {
 
           {/* Right actions */}
           <div className="hidden md:flex items-center gap-2">
-            <Link href="/contact" className="text-[12px] font-light text-ink-500 hover:text-ink-900 transition-colors px-3 py-1.5">
-              Credit Application
-            </Link>
-            <div className="w-px h-4 bg-ink-100 mx-1" />
+
 
             {/* Cart button */}
             <button

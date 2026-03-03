@@ -17,7 +17,6 @@ export function CtaSection() {
   useEffect(() => {
     if (!sectionRef.current) return;
     const ctx = gsap.context(() => {
-      // Parallax on the custom-solutions image panel
       gsap.to(".cta-parallax-img", {
         yPercent: 15,
         ease: "none",
@@ -44,66 +43,72 @@ export function CtaSection() {
 
   return (
     <>
-      {/* ── Custom Solutions / Dark Green Block — #12271D ── */}
+      {/* ── Custom Solutions / Dark Green Block ── */}
       <section
         ref={sectionRef}
         className="relative overflow-hidden"
         style={{ backgroundColor: "#12271D" }}
         aria-label="Custom solutions"
       >
-        <div className="max-w-screen-xl mx-auto px-6 md:px-10">
-          <div className="grid grid-cols-1 md:grid-cols-2 gap-0 min-h-[60vh] items-center py-16 md:py-0">
+        {/* Full-bleed grid — no max-width constraint so image reaches the edge */}
+        <div className="grid grid-cols-1 md:grid-cols-2 min-h-[70vh]">
 
-            {/* Left: Text */}
-            <div className="py-16 md:py-24 md:pr-16">
-              <p className="cta-text-el text-[11px] tracking-[0.25em] uppercase text-white/40 mb-6">
-                Custom Solutions
-              </p>
-              <h2
-                className="cta-text-el text-[clamp(2rem,4vw,3.5rem)] font-light tracking-[-0.025em] text-white leading-tight mb-8"
+          {/* Left: Text — padded generously */}
+          <div className="flex flex-col justify-center px-8 sm:px-12 md:px-16 lg:px-24 py-16 md:py-24">
+            <p className="cta-text-el text-[11px] tracking-[0.25em] uppercase text-white/40 mb-6">
+              Custom Solutions
+            </p>
+            <h2 className="cta-text-el text-[clamp(2rem,3.5vw,3.5rem)] font-light tracking-[-0.025em] text-white leading-tight mb-8">
+              Brands that thrive invest in custom-designed packaging. Let us help bring your vision to life.
+            </h2>
+
+            {/* Scrolling ticker */}
+            <div className="cta-text-el border-t border-b border-white/10 py-4 overflow-hidden mb-8">
+              <motion.div
+                className="flex gap-10 whitespace-nowrap"
+                animate={{ x: [0, "-50%"] }}
+                transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
               >
-                Brands that thrive invest in custom-designed packaging. Let us help bring your vision to life.
-              </h2>
-
-              {/* Scrolling ticker inside the green block — like Yucca's */}
-              <div className="cta-text-el border-t border-b border-white/10 py-4 overflow-hidden mb-8">
-                <motion.div
-                  className="flex gap-10 whitespace-nowrap"
-                  animate={{ x: [0, "-50%"] }}
-                  transition={{ duration: 22, repeat: Infinity, ease: "linear" }}
-                >
-                  {[...Array(10)].map((_, i) => (
-                    <span key={i} className="text-[12px] tracking-[0.15em] uppercase text-white/50 font-light flex items-center gap-10">
-                      Not sure what&apos;s possible? Get in touch to find out.
-                      <span className="text-white/20">↗</span>
-                    </span>
-                  ))}
-                </motion.div>
-              </div>
-
-              <div className="cta-text-el flex flex-wrap gap-4">
-                <Link
-                  href="/contact"
-                  className="inline-flex items-center gap-3 px-7 py-3.5 bg-white text-forest-900 
-                             text-[11px] tracking-widest uppercase font-light hover:bg-sand-100 transition-colors"
-                  style={{ color: "#12271D" }}
-                >
-                  Get in Touch <span>→</span>
-                </Link>
-              </div>
+                {[...Array(10)].map((_, i) => (
+                  <span key={i} className="text-[12px] tracking-[0.15em] uppercase text-white/50 font-light flex items-center gap-10">
+                    Not sure what&apos;s possible? Get in touch to find out.
+                    <span className="text-white/20">↗</span>
+                  </span>
+                ))}
+              </motion.div>
             </div>
 
-            {/* Right: Image with parallax */}
-            <div className="relative h-[50vw] md:h-full overflow-hidden">
-              <div className="cta-parallax-img absolute inset-0 w-full" style={{ height: "130%" }}>
-                <Image
-                  src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=900&q=80&auto=format&fit=crop"
-                  alt="Custom coffee packaging solutions"
-                  fill
-                  className="object-cover opacity-60"
-                  sizes="(max-width: 768px) 100vw, 50vw"
-                />
-              </div>
+            <div className="cta-text-el flex flex-wrap gap-4">
+              <Link
+                href="/contact"
+                className="inline-flex items-center gap-3 px-7 py-3.5 bg-white text-[11px] tracking-widest uppercase font-light hover:bg-sand-100 transition-colors"
+                style={{ color: "#12271D" }}
+              >
+                Get in Touch <span>→</span>
+              </Link>
+            </div>
+          </div>
+
+          {/* Right: Image — absolutely fills its grid cell edge to edge */}
+          <div className="relative overflow-hidden" style={{ minHeight: "50vw" }}>
+            <div
+              className="cta-parallax-img absolute inset-0 w-full"
+              style={{ height: "130%", top: "-15%" }}
+            >
+              <Image
+                src="https://images.unsplash.com/photo-1511920170033-f8396924c348?w=1200&q=80&auto=format&fit=crop"
+                alt="Custom coffee packaging solutions"
+                fill
+                className="object-cover opacity-70"
+                sizes="50vw"
+              />
+              {/* Subtle dark gradient on left edge to blend into green */}
+              <div
+                className="absolute inset-0 pointer-events-none"
+                style={{
+                  background: "linear-gradient(to right, #12271D 0%, transparent 18%)",
+                }}
+              />
             </div>
           </div>
         </div>
