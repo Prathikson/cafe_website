@@ -85,7 +85,7 @@ export function Footer() {
 
             {/* Nav links */}
             <div className="md:col-span-3">
-              <p className="text-[10px] tracking-[0.2em] uppercase text-ink-300 mb-5">Navigate</p>
+              <p className="text-[10px] tracking-[0.2em] uppercase text-sand-50 mb-5">Navigate</p>
               <ul className="space-y-3">
                 {navLinks.map((link, i) => (
                   <motion.li
@@ -109,7 +109,7 @@ export function Footer() {
 
             {/* Policy links */}
             <div className="md:col-span-3">
-              <p className="text-[10px] tracking-[0.2em] uppercase text-ink-300 mb-5">Legal</p>
+              <p className="text-[10px] tracking-[0.2em] uppercase text-sand-50 mb-5">Legal</p>
               <ul className="space-y-3">
                 {policyLinks.map((link, i) => (
                   <motion.li
@@ -121,7 +121,7 @@ export function Footer() {
                   >
                     <Link
                       href={link.href}
-                      className="text-[13px] font-light text-ink-400 hover:text-ink-700 transition-colors"
+                      className="text-[13px] font-light text-ink-700 hover:text-ink-900 transition-colors"
                     >
                       {link.label}
                     </Link>
@@ -133,7 +133,7 @@ export function Footer() {
             {/* CTA */}
             <div className="md:col-span-2 flex flex-col justify-between">
               <div>
-                <p className="text-[10px] tracking-[0.2em] uppercase text-ink-300 mb-5">Get in touch</p>
+                <p className="text-[10px] tracking-[0.2em] uppercase text-sand-50 mb-5">Get in touch</p>
                 <Link
                   href="/contact"
                   className="inline-flex items-center gap-2 text-[13px] font-light text-ink-700 hover:text-ink-900 transition-colors group"

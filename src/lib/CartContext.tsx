@@ -1,6 +1,6 @@
 "use client";
 
-import React, { createContext, useContext, useReducer, useState } from "react";
+import React, { createContext, useContext, useReducer } from "react";
 
 export interface CartItem {
   id: string;
@@ -28,7 +28,6 @@ type CartAction =
 function cartReducer(state: CartState, action: CartAction): CartState {
   switch (action.type) {
     case "ADD": {
-      const key = `${action.item.id}-${action.item.size}`;
       const exists = state.items.find(
         (i) => i.id === action.item.id && i.size === action.item.size
       );
@@ -38,12 +37,14 @@ function cartReducer(state: CartState, action: CartAction): CartState {
           isOpen: true,
           items: state.items.map((i) =>
             i.id === action.item.id && i.size === action.item.size
-              ? { ...i, qty: i.qty + 1 }
+              // ✅ Was: i.qty + 1  →  now uses the dispatched qty
+              ? { ...i, qty: i.qty + action.item.qty }
               : i
           ),
         };
       }
-      return { ...state, isOpen: true, items: [...state.items, { ...action.item, qty: 1 }] };
+      // ✅ Was: { ...action.item, qty: 1 }  →  now preserves dispatched qty
+      return { ...state, isOpen: true, items: [...state.items, action.item] };
     }
     case "REMOVE":
       return {

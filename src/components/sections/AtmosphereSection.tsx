@@ -13,7 +13,7 @@ const panels = [
     label: "The Space",
     title: "Adaptable and Resilient like the Yucca Plant.",
     body: "Packaging is universal, and we use it every day. No matter who or where we are, exceptional food is something we all appreciate.",
-    img: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=900&q=80&auto=format&fit=crop",
+    img: "/cafe.jpg",
     alt: "Café interior — warm and welcoming",
     side: "right",
   },
@@ -21,7 +21,7 @@ const panels = [
     label: "Certified Food Safety",
     title: "You can trust that your packaging will be 100% safe.",
     body: "Designed for superior durability, and compliant with global standards. Every product is tested and certified.",
-    img: "https://images.unsplash.com/photo-1517093157656-b9eccef91cb1?w=900&q=80&auto=format&fit=crop",
+    img: "/coffee.jpg",
     alt: "Food served in sustainable packaging",
     side: "left",
   },
@@ -67,9 +67,7 @@ export function AtmosphereSection() {
       {panels.map((panel, i) => (
         <div
           key={panel.label}
-          className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 ${
-            i > 0 ? "border-t border-ink-100" : ""
-          }`}
+          className={`grid grid-cols-1 md:grid-cols-2 gap-8 md:gap-12 lg:gap-16 items-center py-12 md:py-16 lg:py-20 px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16 `}
         >
           {/* Text side */}
           <div
@@ -77,7 +75,7 @@ export function AtmosphereSection() {
               panel.side === "right" ? "md:order-1" : "md:order-2"
             }`}
           >
-            <p className="atm-text text-[11px] tracking-[0.25em] uppercase text-ink-400 mb-5">
+            <p className="atm-text text-[11px] tracking-[0.25em] uppercase text-black mb-5">
               {panel.label}
             </p>
             <h2 className="atm-text text-[clamp(1.8rem,3.2vw,2.8rem)] font-light tracking-[-0.02em] text-ink-900 leading-snug mb-6 max-w-sm">

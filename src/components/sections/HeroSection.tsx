@@ -8,7 +8,6 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-// Stagger variants for headline words
 const wordVariants = {
   hidden: { opacity: 0, y: 40 },
   visible: (i: number) => ({
@@ -25,7 +24,6 @@ export function HeroSection() {
   const cardRef = useRef<HTMLDivElement>(null);
   const [scrollY, setScrollY] = useState(0);
 
-  // More subtle 3D tilt effect
   const mouseX = useMotionValue(0);
   const mouseY = useMotionValue(0);
 
@@ -41,10 +39,8 @@ export function HeroSection() {
   const handleMouseMove = (e: React.MouseEvent<HTMLDivElement>) => {
     if (!cardRef.current) return;
     const rect = cardRef.current.getBoundingClientRect();
-    const centerX = rect.left + rect.width / 2;
-    const centerY = rect.top + rect.height / 2;
-    const x = (e.clientX - centerX) / (rect.width / 2);
-    const y = (e.clientY - centerY) / (rect.height / 2);
+    const x = (e.clientX - rect.left - rect.width / 2) / (rect.width / 2);
+    const y = (e.clientY - rect.top - rect.height / 2) / (rect.height / 2);
     mouseX.set(x);
     mouseY.set(y);
   };
@@ -54,12 +50,9 @@ export function HeroSection() {
     mouseY.set(0);
   };
 
-  // Parallax on scroll
   useEffect(() => {
-    const handleScroll = () => {
-      setScrollY(window.scrollY);
-    };
-    window.addEventListener("scroll", handleScroll);
+    const handleScroll = () => setScrollY(window.scrollY);
+    window.addEventListener("scroll", handleScroll, { passive: true });
     return () => window.removeEventListener("scroll", handleScroll);
   }, []);
 
@@ -81,17 +74,16 @@ export function HeroSection() {
   return (
     <section
       className="relative w-full pt-[80px] md:pt-[100px]"
-      style={{
-        backgroundColor: "#D4C9B8",
-        minHeight: "100vh",
-      }}
+      style={{ backgroundColor: "#D4C9B8", minHeight: "100vh" }}
       aria-label="Hero"
     >
-      <div className="w-full h-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
-        <div className="max-w-[1600px] mx-auto h-full">
-          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 xl:gap-16 min-h-[calc(100vh-180px)] items-center py-8 md:py-12 lg:py-16">
-            
-            {/* ── Left: Big Headline ── */}
+      <div className="w-full px-4 sm:px-6 md:px-8 lg:px-12 xl:px-16">
+        <div className="max-w-[1600px] mx-auto">
+
+          {/* ── Main grid ── */}
+          <div className="grid grid-cols-1 lg:grid-cols-12 gap-6 md:gap-8 lg:gap-12 xl:gap-16 items-center py-8 md:py-12 lg:py-16 lg:min-h-[calc(100vh-220px)]">
+
+            {/* Left: Headline */}
             <div className="lg:col-span-5 xl:col-span-6">
               <h1
                 className="font-light tracking-tight leading-[0.9]"
@@ -115,13 +107,13 @@ export function HeroSection() {
               </h1>
             </div>
 
-            {/* ── Right: 3D Card with Parallax Image ── */}
+            {/* Right: 3D Card */}
             <div className="lg:col-span-7 xl:col-span-6">
               <div
                 ref={imgRef}
                 className="relative w-full"
                 style={{
-                  height: "clamp(350px, 60vh, 650px)",
+                  height: "clamp(280px, 50vh, 650px)",
                   perspective: "1500px",
                 }}
               >
@@ -132,7 +124,7 @@ export function HeroSection() {
                     rotateX,
                     rotateY,
                     transformStyle: "preserve-3d",
-                    boxShadow: "0 20px 60px rgba(0, 0, 0, 0.12)",
+                    boxShadow: "0 20px 60px rgba(0,0,0,0.12)",
                   }}
                   initial={{ opacity: 0, y: 40, scale: 0.96 }}
                   animate={{ opacity: 1, y: 0, scale: 1 }}
@@ -141,10 +133,9 @@ export function HeroSection() {
                   onMouseLeave={handleMouseLeave}
                   whileHover={{
                     scale: 1.01,
-                    boxShadow: "0 25px 70px rgba(0, 0, 0, 0.15)",
+                    boxShadow: "0 25px 70px rgba(0,0,0,0.15)",
                   }}
                 >
-                  {/* Parallax Image */}
                   <motion.div
                     className="relative w-full h-full"
                     style={{
@@ -161,105 +152,108 @@ export function HeroSection() {
                     />
                   </motion.div>
 
-                  {/* Glossy overlay effect */}
+                  {/* Gloss overlay */}
                   <motion.div
                     className="absolute inset-0 pointer-events-none"
                     style={{
-                      background: "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.03) 100%)",
-                      transform: `translateX(${mouseX.get() * 15}px) translateY(${mouseY.get() * 15}px)`,
+                      background:
+                        "linear-gradient(135deg, rgba(255,255,255,0.08) 0%, rgba(255,255,255,0) 50%, rgba(0,0,0,0.03) 100%)",
                     }}
                   />
                 </motion.div>
               </div>
             </div>
-
           </div>
+
+          {/* ── Scroll Indicator ──
+               On mobile/tablet: flows naturally below the grid (relative).
+               On desktop (lg+): absolutely pinned to the bottom of the section.
+          ── */}
+          <motion.div
+            className="
+              flex flex-col items-center gap-3
+              pb-10 pt-2
+              lg:hidden
+            "
+            initial={{ opacity: 0, y: -16 }}
+            animate={{ opacity: 1, y: 0 }}
+            transition={{ duration: 0.8, delay: 1.2 }}
+          >
+            <ScrollIndicatorContent />
+          </motion.div>
         </div>
       </div>
 
-      {/* ── Fun Scroll Indicator ── */}
+      {/* Desktop-only absolute version */}
       <motion.div
-        className="absolute bottom-12 md:bottom-16 left-1/2 -translate-x-1/2 flex flex-col items-center gap-4"
-        initial={{ opacity: 0, y: -20 }}
+        className="
+          hidden lg:flex flex-col items-center gap-3
+          absolute bottom-10 xl:bottom-14 left-1/2 -translate-x-1/2
+        "
+        initial={{ opacity: 0, y: -16 }}
         animate={{ opacity: 1, y: 0 }}
         transition={{ duration: 0.8, delay: 1.2 }}
       >
-        {/* Coffee Cup Icon */}
-        <motion.div
-          animate={{
-            y: [0, -8, 0],
-          }}
-          transition={{
-            duration: 2,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <svg
-            width="32"
-            height="32"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="1.5"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-gray-800"
-          >
-            <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
-            <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
-            <line x1="6" x2="6" y1="2" y2="4" />
-            <line x1="10" x2="10" y1="2" y2="4" />
-            <line x1="14" x2="14" y1="2" y2="4" />
-          </svg>
-        </motion.div>
-
-        {/* Fun Text */}
-        <motion.span
-          className="text-sm md:text-base font-light tracking-wide text-gray-800"
-          style={{
-            fontStyle: "italic",
-          }}
-          animate={{
-            opacity: [0.6, 1, 0.6],
-          }}
-          transition={{
-            duration: 2.5,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          Keep scrolling for more goodness ☕
-        </motion.span>
-
-        {/* Animated Arrow */}
-        <motion.div
-          className="flex flex-col gap-1"
-          animate={{
-            y: [0, 10, 0],
-          }}
-          transition={{
-            duration: 1.8,
-            repeat: Infinity,
-            ease: "easeInOut",
-          }}
-        >
-          <svg
-            width="24"
-            height="24"
-            viewBox="0 0 24 24"
-            fill="none"
-            stroke="currentColor"
-            strokeWidth="2"
-            strokeLinecap="round"
-            strokeLinejoin="round"
-            className="text-gray-700"
-          >
-            <polyline points="7 13 12 18 17 13" />
-            <polyline points="7 6 12 11 17 6" />
-          </svg>
-        </motion.div>
+        <ScrollIndicatorContent />
       </motion.div>
     </section>
+  );
+}
+
+// ── Extracted so both mobile and desktop render the same markup ───────────────
+function ScrollIndicatorContent() {
+  return (
+    <>
+      <motion.div
+        animate={{ y: [0, -7, 0] }}
+        transition={{ duration: 2, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <svg
+          width="28"
+          height="28"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="1.5"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-gray-800"
+        >
+          <path d="M17 8h1a4 4 0 1 1 0 8h-1" />
+          <path d="M3 8h14v9a4 4 0 0 1-4 4H7a4 4 0 0 1-4-4Z" />
+          <line x1="6" x2="6" y1="2" y2="4" />
+          <line x1="10" x2="10" y1="2" y2="4" />
+          <line x1="14" x2="14" y1="2" y2="4" />
+        </svg>
+      </motion.div>
+
+      <motion.span
+        className="text-sm font-light tracking-wide text-gray-800 italic whitespace-nowrap"
+        animate={{ opacity: [0.55, 1, 0.55] }}
+        transition={{ duration: 2.5, repeat: Infinity, ease: "easeInOut" }}
+      >
+        Keep scrolling for more goodness ☕
+      </motion.span>
+
+      <motion.div
+        animate={{ y: [0, 8, 0] }}
+        transition={{ duration: 1.8, repeat: Infinity, ease: "easeInOut" }}
+      >
+        <svg
+          width="22"
+          height="22"
+          viewBox="0 0 24 24"
+          fill="none"
+          stroke="currentColor"
+          strokeWidth="2"
+          strokeLinecap="round"
+          strokeLinejoin="round"
+          className="text-gray-700"
+        >
+          <polyline points="7 13 12 18 17 13" />
+          <polyline points="7 6 12 11 17 6" />
+        </svg>
+      </motion.div>
+    </>
   );
 }

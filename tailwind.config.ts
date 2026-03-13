@@ -11,7 +11,7 @@ const config: Config = {
       colors: {
         sand: {
           50:  "#FDFCF8",
-          100: "#F5F0E8",
+          100: "#D4C9B8",
           200: "#EDE6D8",
           300: "#DDD4C0",
         },

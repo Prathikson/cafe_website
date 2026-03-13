@@ -39,7 +39,7 @@ const cards = [
     num: "004",
     title: "Served with Warmth",
     body: "A sanctuary — warm wood, natural light, unhurried service. We designed a space where time slows and mornings have room to breathe.",
-    img: "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=85&auto=format&fit=crop",
+    img: "/latte.jpg",
     tag: "Space",
     bg: "#C8BFA8",
     textColor: "#1A1A1A",

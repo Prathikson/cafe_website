@@ -6,6 +6,7 @@
 @import url("https://fonts.googleapis.com/css2?family=DM+Mono:wght@300;400&display=swap");
 
 :root {
+  --bgcol: #D4C9B8;
   --sand:    #F5F0E8;
   --sand-50: #FDFCF8;
   --forest:  #12271D;
@@ -23,7 +24,7 @@ html {
 }
 
 body {
-  background-color: var(--sand);
+  background-color: var(--bgcol);
   color: var(--ink);
   font-family: "Helvetica Neue", Helvetica, -apple-system, BlinkMacSystemFont, sans-serif;
   font-weight: 300;

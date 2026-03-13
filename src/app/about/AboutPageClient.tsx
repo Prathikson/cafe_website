@@ -8,8 +8,8 @@ import { ScrollTrigger } from "gsap/ScrollTrigger";
 
 if (typeof window !== "undefined") gsap.registerPlugin(ScrollTrigger);
 
-const ABOUT_HERO_IMG = "https://images.unsplash.com/photo-1501339847302-ac426a4a7cbb?w=1200&q=80&auto=format&fit=crop";
-const PLANT_IMG = "https://images.unsplash.com/photo-1446071103084-c257b5f70672?w=800&q=80&auto=format&fit=crop";
+const ABOUT_HERO_IMG = "/cafe.jpg";
+const PLANT_IMG = "/latte.jpg";
 
 const values = [
   { num: "01", title: "Direct Trade",    body: "Long-term relationships with farmers, paying above Fair Trade prices and visiting origin annually." },
